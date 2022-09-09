@@ -71,3 +71,14 @@ type Employee {
     "When the account was last updated."
     updated_at: DateTime!
 }
+
+type Mutation {
+    createEmployee(
+        name: String!
+        email: String! @rules(apply: ["email", "unique:employees"])
+        title: String!
+    ): Employee! @create
+
+    updateEmployee(id: ID!, name: String, email: String, title: String): Employee! @update
+    deleteEmployee(id: ID!): Employee @delete
+}
