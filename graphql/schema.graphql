@@ -18,6 +18,9 @@ type Query {
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
 
+    # get the authenticate user info
+    me: User @guard @auth
+
      "Find a single employee by an identifying attribute."
     employee(
       "Search by primary key."
@@ -77,8 +80,8 @@ type Mutation {
         name: String!
         email: String! @rules(apply: ["email", "unique:employees"])
         title: String!
-    ): Employee! @create
+    ): Employee! @guard @create
 
-    updateEmployee(id: ID!, name: String, email: String, title: String): Employee! @update
-    deleteEmployee(id: ID!): Employee @delete
+    updateEmployee(id: ID!, name: String, email: String, title: String): Employee! @guard @update
+    deleteEmployee(id: ID!): Employee @guard @delete
 }
