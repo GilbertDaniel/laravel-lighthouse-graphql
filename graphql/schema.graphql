@@ -10,7 +10,7 @@ type Query {
 
       "Search by email address."
       email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
+    ): User @guard @find
 
     "List multiple users."
     users(
@@ -25,13 +25,13 @@ type Query {
     employee(
       "Search by primary key."
       id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
-    ): Employee @find
+    ): Employee @guard @find
 
     "List multiple employees."
     employees(
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
-    ): [Employee!]! @paginate(defaultCount: 10)
+    ): [Employee!]! @guard @paginate(defaultCount: 10)
 }
 
 "Account of a person who utilizes this application."
